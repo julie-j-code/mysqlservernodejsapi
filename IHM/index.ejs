@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil</title>
+</head>
+<body>
+    <div style="width: 50%; margin: auto;">
+        
+        <%- include('./composants/header') %>
+        
+        <section>
+            <form action="/products" method="post">
+                <input type="hidden" name="id" id="id">
+                <label for="title">Titre</label><br>
+                <input type="text" id="title" name="title"><br>
+                <label for="description">Description</label><br>
+                <textarea name="description" id="description" cols="20" rows="5"></textarea>
+                <br>
+                <input type="submit" value="Enregistrer" onclick="">
+            </form>
+            <p>------------------------------------------------------</p>
+        </section>
+
+        <section>
+            <h2>Liste des Produits</h2>
+
+            <% for(i=0; i<resultat.length; i++) { %>
+
+                <h3><%= resultat[i].title %></h3>
+                <p><%= resultat[i].description %></p>
+
+                <input type="button" value="Supprimer" onclick="supprimer('<%= resultat[i].id %>')">
+                <input type="button" value="Modifier" onclick="remplirDonnees('<%= resultat[i].id %>','<%= resultat[i].title %>', '<%= resultat[i].description %>' )">
+
+            <% } %>
+   
+        </section>
+    </div>
+</body>
+
+<script>
+    function remplirDonnees(id, title, desc) {
+        document.getElementById('id').value = id;
+        document.getElementById('title').value = title;
+        document.getElementById('description').value = desc;
+    }
+
+    function supprimer(id) {
+
+        let pointFinal = "products/" + id
+        fetch(
+            pointFinal, {method : "DELETE"}
+        ).then(
+            (reponse)=> reponse.json()
+        ).then(
+            (donnee)=> window.location.href = donnee.routeRacine
+        ).catch((erreur)=> console.log(erreur))
+        
+    }
+</script>
+
+</html>
