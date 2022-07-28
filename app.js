@@ -16,14 +16,18 @@ const app = express();
 //Extration des données du formulaire
 app.use(express.urlencoded({ extended: false }));
 
-//Définition du middleware pur connexion avec la bd
+//Définition du middleware pour connexion avec la bd
 app.use(myConnection(mysql, optionBd, "pool"));
 
 //Définition du moteur d'affichage
 app.set("view engine", "ejs");
 app.set("views", "IHM");
 
-//Définition des routes pour notes
+
+// Emplacement du fichier css
+app.use(express.static(__dirname + '/public'));
+
+//Définition des routes pour les produits
 app.use(productsRoutes);
 
 app.get("/apropos", (req, res) => {
